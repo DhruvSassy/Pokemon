@@ -1,16 +1,20 @@
-import axios from 'axios';
+import axiosInstance from '../../Config/axios';
 import { DISPLAY_BERRIES_SUCCESS } from './constant';
 
 export const displayPokemon = (idOrName) => {
   return (dispatch) => {
-    return axios
-      .get(` https://pokeapi.co/api/v2/berry/${idOrName}`)
+    return axiosInstance
+      .get(`/berry`)
       .then((response) => {
-        console.log("response:", response.data);
         if (response?.status === 200) {
+          const {results,count,previous,next} = response?.data;
+          console.log("response:",response?.data);
           dispatch({
             type: DISPLAY_BERRIES_SUCCESS, 
-            payload: response.data,
+            data: results,
+            count:count,
+            previous:previous,
+            next:next
           });
           return Promise.resolve(response);
         }

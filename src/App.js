@@ -1,10 +1,8 @@
 import './App.css';
-import Home from './routes/Page/Home';
+import RoutesPath from './routes';
 
 function App() {
-  return (
-   <Home />
-  );
+  return <RoutesPath />;
 }
 
 export default App;

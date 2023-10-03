@@ -1,7 +1,10 @@
 import { DISPLAY_BERRIES_SUCCESS } from '../action/constant';
 
 const initialState = {
+  count:0,
   pokemonData: [],
+  prev: null,
+  next: null,
 };
 
 const pokemonReducer = (state = initialState, action) => {
@@ -9,7 +12,11 @@ const pokemonReducer = (state = initialState, action) => {
     case DISPLAY_BERRIES_SUCCESS:
       return {
         ...state,
-        pokemonData: action.payload,
+        count:action.count,
+        prev: action.previous,  
+        next: action.next,
+        pokemonData: action.data,
+        
       };
 
     default:
