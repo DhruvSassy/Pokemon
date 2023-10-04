@@ -3,7 +3,7 @@ import React from 'react';
 import { Pagination, Stack } from '@mui/material';
 
 const PagiNation = (props) => {
-  const { count, currentPage, onChange } = props;
+  const { style, count, page, currentPage, onChange } = props;
 
   return (
     <div
@@ -11,13 +11,16 @@ const PagiNation = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 10,
       }}
     >
       <Stack spacing={2}>
         <Pagination
+          style={style}
           count={count}
           color="secondary"
-          page={currentPage}
+          currentPage={currentPage}
+          page={page}
           onChange={onChange}
         />
       </Stack>
