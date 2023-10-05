@@ -8,6 +8,7 @@ import { displayPokemon } from '../../../Redux/action';
 import Image from '../../../Components/Image';
 import Label from '../../../Components/Label';
 import PagiNation from '../../../Components/PagiNation';
+import logo from '../../../pokemon.png';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -54,18 +55,29 @@ const Home = () => {
     dispatch(displayPokemon(10));
   }, [dispatch]);
 
-  const handleDetail = (pokemonName) => {
-    navigate(`/pokemon/${pokemonName}`);
+  const handleDetail = (pokemonUrl) => {
+    navigate(`/pokemon/${pokemonUrl.split('/').slice(-2)[0]}`);
   };
+  
 
   return (
-    <div style={{ backgroundColor: 'lightgray' }}>
+    <div
+      style={{
+        backgroundColor: 'lightgray',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+      }}
+    >
+      <img src={logo} alt="Logo" style={{ height: '150px', width: '700px',marginTop:10 }} />
       <Box sx={{ flexGrow: 1, margin: 5 }}>
         <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
           {pokemonData.map((pokemon) => (
             <Grid item xs={2} sm={4} md={4} key={pokemon.name}>
               <Item
-                onClick={() => handleDetail(pokemon.name)}
+                onClick={() => handleDetail(pokemon.url)}
                 sx={{
                   backgroundColor: 'lightgreen',
                 }}
@@ -73,18 +85,22 @@ const Home = () => {
                 <Image
                   alt={pokemon.name}
                   src={`https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`}
-                  style={{ width: 300, height: 300 ,borderRadius:10,border:"4px solid lightpink"}}
+                  style={{
+                    width: 300,
+                    height: 300,
+                    borderRadius: 10,
+                    border: '4px solid lightpink',
+                  }}
                 />
                 <Label
                   title={pokemon.name}
-                  style={{ fontWeight: 'bold', color: 'black',marginTop:10 }}
+                  style={{ fontWeight: 'bold', color: 'black', marginTop: 10 }}
                 />
               </Item>
             </Grid>
           ))}
         </Grid>
       </Box>
-                
       <PagiNation
         count={count}
         currentPage={currentPage}

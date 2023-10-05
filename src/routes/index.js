@@ -8,7 +8,7 @@ const RoutesPath = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/berry/:name" element={<Details />} />
+        <Route path="/pokemon/:id" element={<Details />} />
       </Routes>
     </BrowserRouter>
   );

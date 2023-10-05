@@ -1,12 +1,12 @@
-import { DISPLAY_POKEMON_SUCCESS } from '../action/constant';
+import { DETAIL_POKEMON_SUCCESS, DISPLAY_POKEMON_SUCCESS } from '../action/constant';
 
-// Modify your initial state in pokemonReducer.js
 const initialState = {
   count: 0,
   pokemonData: [],
+  pokemonDetailsData:[],
   prev: null,
   next: null,
-  currentPage: 1, // Add currentPage to keep track of the current page
+  currentPage: 1, 
 };
 
 
@@ -21,6 +21,12 @@ const pokemonReducer = (state = initialState, action) => {
         pokemonData: action.data,
         currentPage: action.currentPage, 
       };
+
+      case DETAIL_POKEMON_SUCCESS:
+      return{
+        ...state,
+        pokemonDetailsData:action.payload,
+      }
 
     default:
       return state;

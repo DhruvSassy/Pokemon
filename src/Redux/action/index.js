@@ -1,5 +1,5 @@
 import axiosInstance from '../../Config/axios';
-import { DISPLAY_POKEMON_SUCCESS } from './constant'; 
+import { DETAIL_POKEMON_SUCCESS, DISPLAY_POKEMON_SUCCESS } from './constant';
 
 export const displayPokemon = (limit, page) => {
   const offset = (page - 1) * limit;
@@ -26,3 +26,23 @@ export const displayPokemon = (limit, page) => {
   };
 };
 
+export const displayDetailsPokemon = (id) => {
+  return (dispatch) => {
+    return axiosInstance
+      .get(`/pokemon/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("response:",response.data)
+
+          dispatch({
+            type: DETAIL_POKEMON_SUCCESS,
+            payload: response.data,
+          });
+          return Promise.resolve(response);
+        }
+      })
+      .catch((err) => {
+        return Promise.reject(err);
+      });
+  };
+};
