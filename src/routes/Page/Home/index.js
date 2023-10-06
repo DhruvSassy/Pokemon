@@ -63,7 +63,7 @@ const Home = () => {
   return (
     <div
       style={{
-        backgroundColor: 'lightgray',
+        backgroundColor: 'Ivory',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

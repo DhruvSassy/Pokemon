@@ -12,6 +12,7 @@ const PagiNation = (props) => {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
+        marginBottom:20
       }}
     >
       <Stack spacing={2}>
