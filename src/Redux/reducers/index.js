@@ -1,4 +1,4 @@
-import { DETAIL_POKEMON_SUCCESS, DISPLAY_POKEMON_SUCCESS } from '../action/constant';
+import { DETAIL_POKEMON_SUCCESS, DISPLAY_POKEMON_SUCCESS, SEARCH_POKEMON_SUCCESS } from '../action/constant';
 
 const initialState = {
   count: 0,
@@ -26,7 +26,13 @@ const pokemonReducer = (state = initialState, action) => {
       return{
         ...state,
         pokemonDetailsData:action.payload,
-      }
+      };
+
+      case SEARCH_POKEMON_SUCCESS:
+      return{
+        ...state,
+        pokemonData:[action.payload],
+      };
 
     default:
       return state;
