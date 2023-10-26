@@ -21,7 +21,6 @@ const Details = () => {
     (state) => state?.pokemon.pokemonDetailsData
   );
   const [showAllMoves, setShowAllMoves] = useState(false);
-  console.log('showAllMoves:', showAllMoves);
 
   useEffect(() => {
     dispatch(displayDetailsPokemon(id));

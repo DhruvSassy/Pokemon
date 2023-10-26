@@ -2,6 +2,7 @@ import axiosInstance from '../../Config/axios';
 import {
   DETAIL_POKEMON_SUCCESS,
   DISPLAY_POKEMON_SUCCESS,
+  SEARCH_POKEMON_ERROR,
   SEARCH_POKEMON_SUCCESS,
 } from './constant';
 
@@ -49,21 +50,38 @@ export const displayDetailsPokemon = (id) => {
   };
 };
 
-export const searchpokemon = (name) => {
+
+export const searchPokemon = (name) => {
   return (dispatch) => {
     return axiosInstance
       .get(`/pokemon/${name}`)
       .then((response) => {
-        if (response.status === 200) {
+        if (response?.status === 200) {
           dispatch({
             type: SEARCH_POKEMON_SUCCESS,
-            payload: response.data,
+            payload: response?.data,
           });
           return Promise.resolve(response);
         }
       })
       .catch((err) => {
+        if (err.response && err.response.status === 404) {
+          dispatch({
+            type: SEARCH_POKEMON_ERROR,
+            error: "Pokemon not found",
+          });
+        } else {
+          dispatch({
+            type: SEARCH_POKEMON_ERROR,
+            error: "An error occurred",
+          });
+        }
         return Promise.reject(err);
       });
   };
 };
+
+
+
+
+
