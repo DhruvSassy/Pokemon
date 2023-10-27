@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   experimentalStyled as styled,
   Box,
@@ -11,10 +11,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-import {
-  displayPokemon,
-  searchPokemon,
-} from '../../../Redux/action';
+import { displayPokemon, searchPokemon } from '../../../Redux/action';
 import Image from '../../../Components/Image';
 import Label from '../../../Components/Label';
 import PagiNation from '../../../Components/PagiNation';
@@ -37,18 +34,18 @@ const Home = () => {
   const previous = useSelector((state) => state.pokemon.prev);
   const next = useSelector((state) => state?.pokemon?.next);
   const count = useSelector((state) => state?.pokemon?.count);
+  const error = useSelector((state) => state?.pokemon?.error);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const error = useSelector((state) => state?.pokemon?.error); 
 
   const handlePageChange = (event, newPage) => {
     if (newPage !== currentPage) {
       setCurrentPage(newPage);
 
-      const newOffset = (newPage - 1) * 1 + 1;
+      const page = (newPage - 1) * 1 + 1;
 
       if (newPage > currentPage && next) {
-        dispatch(displayPokemon(10, newOffset));
+        dispatch(displayPokemon(10, page));
       } else if (newPage < currentPage) {
         if (previous) {
           const prevOffset = Math.max((newPage - 1) * 1 + 1, 1);
@@ -66,16 +63,13 @@ const Home = () => {
 
   const handleDetail = (pokemonUrl) => {
     const pokemonId = pokemonUrl?.split('/').slice(-2)[0];
-    console.log('Pokemon ID:', pokemonId);
     navigate(`/pokemon/${pokemonId}`);
   };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    dispatch(searchPokemon(searchTerm));
+    dispatch(searchPokemon(event.target.value));
   };
-
-
 
   return (
     <>
@@ -116,23 +110,21 @@ const Home = () => {
           inputProps={{ 'aria-label': 'search Pokemon' }}
           onChange={handleSearchChange}
         />
-        <IconButton
-          type="button"
-          sx={{ p: '10px' }}
-          aria-label="search"
-        >
+        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
           <SearchIcon />
         </IconButton>
       </Paper>
       <Box sx={{ flexGrow: 1, margin: 5 }}>
         <Grid container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {error && (
-        <div style={{ color: 'red' }}>{error}</div>
-      )}
-            {pokemonData?.map((pokemon) => (
+          {error ? (
+            <div style={{ color: 'red' }}>{error}</div>
+          ) : (
+            pokemonData?.map((pokemon) => (
               <Grid item xs={2} sm={4} md={4} key={pokemon.name}>
                 <Item
-                  onClick={() => handleDetail(pokemon?.url)}
+                  onClick={() =>
+                    handleDetail(pokemon?.url || pokemon?.species?.url)
+                  }
                   sx={{
                     backgroundColor: 'lightgreen',
                   }}
@@ -149,12 +141,16 @@ const Home = () => {
                   />
                   <Label
                     title={pokemon.name}
-                    style={{ fontWeight: 'bold', color: 'black', marginTop: 10 }}
+                    style={{
+                      fontWeight: 'bold',
+                      color: 'black',
+                      marginTop: 10,
+                    }}
                   />
                 </Item>
               </Grid>
             ))
-          }
+          )}
         </Grid>
       </Box>
       <PagiNation

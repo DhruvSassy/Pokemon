@@ -1,15 +1,19 @@
-import { DETAIL_POKEMON_SUCCESS, DISPLAY_POKEMON_SUCCESS, SEARCH_POKEMON_ERROR, SEARCH_POKEMON_SUCCESS } from '../action/constant';
+import {
+  DETAIL_POKEMON_SUCCESS,
+  DISPLAY_POKEMON_SUCCESS,
+  SEARCH_POKEMON_ERROR,
+  SEARCH_POKEMON_SUCCESS,
+} from '../action/constant';
 
 const initialState = {
   count: 0,
   pokemonData: [],
-  pokemonDetailsData:[],
+  pokemonDetailsData: [],
   prev: null,
   next: null,
-  currentPage: 1, 
-  error: undefined,
+  currentPage: 1,
+  error: '',
 };
-
 
 const pokemonReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -20,28 +24,28 @@ const pokemonReducer = (state = initialState, action) => {
         prev: action.previous,
         next: action.next,
         pokemonData: action.data,
-        currentPage: action.currentPage, 
-        error:''
+        currentPage: action.currentPage,
+        error: '',
       };
 
-      case DETAIL_POKEMON_SUCCESS:
-      return{
+    case DETAIL_POKEMON_SUCCESS:
+      return {
         ...state,
-        pokemonDetailsData:action.payload,
-        error:''
+        pokemonDetailsData: action.payload,
+        error: '',
       };
 
-      case SEARCH_POKEMON_SUCCESS:
+    case SEARCH_POKEMON_SUCCESS:
       return {
         ...state,
         pokemonData: [action.payload],
-        error: '', 
+        error: '',
       };
 
     case SEARCH_POKEMON_ERROR:
       return {
         ...state,
-        error: action.error, 
+        error: action.error,
       };
     default:
       return state;
